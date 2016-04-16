@@ -19,6 +19,10 @@ import { setCounterFromAPI } from '../common/actions/counter'
 import { setSidebarFromAPI } from '../common/actions/sidebar'
 import { setPhotosFromAPI } from '../common/actions/photo'
 
+import { match, RouterContext, createMemoryHistory } from 'react-router';
+import { syncHistoryWithStore } from 'react-router-redux'
+import routes from '../common/routes'
+
 const app = new Express()
 const port = 3000
 
@@ -29,6 +33,15 @@ app.use(webpackHotMiddleware(compiler))
 
 // This is fired every time the server side receives a request
 app.use(handleRender)
+
+function matchRoutes(history, url) {
+  return new Promise((resolve, reject) => {
+    match({ history, routes, location: url }, (error, redirect, render) => {
+      if (error) { reject(error) }
+      resolve([redirect, render])
+    })
+  })
+}
 
 function handleRender(req, res) {
   // Read the counter from the request, if provided
@@ -41,16 +54,38 @@ function handleRender(req, res) {
   // Create a new Redux store instance
   const store = configureStore(initialState)
 
-  Promise.all([
-    store.dispatch(setCounterFromAPI()),
-    store.dispatch(setPhotosFromAPI()),
-    store.dispatch(setSidebarFromAPI())
-  ]).then(() => {
+  // Create an enhanced history that syncs navigation events with the store
+  const memoryHistory = createMemoryHistory(req.originalUrl)
+  const history = syncHistoryWithStore(memoryHistory, store)
+
+  matchRoutes(history, req.url).then((results) => {
+    const [redirectLocation, renderProps] = results
+
+    if (redirectLocation) {
+      res.redirect(302, redirectLocation.pathname + redirectLocation.search)
+      return Promise.reject('Redirect')
+    }
+
+    if (renderProps) {
+      return renderProps
+    }
+
+    res.status(404).send('Not found - 404')
+    return Promise.reject('Not found')
+  }).then((renderProps) => {
+    return Promise.all([
+      store.dispatch(setCounterFromAPI()),
+      store.dispatch(setPhotosFromAPI()),
+      store.dispatch(setSidebarFromAPI())
+    ]).then(() => {
+      return renderProps
+    })
+  }).then((renderProps) => {
 
     // Render the component to a string
     const html = renderToString(
       <Provider store={store}>
-        <App />
+        <RouterContext {...renderProps} />
       </Provider>
     )
 
@@ -60,6 +95,10 @@ function handleRender(req, res) {
     // Send the rendered page back to the client
     res.send(renderFullPage(html, finalState))
   }).catch((error) => {
+    if (error === 'Not found' || error === 'Redirect') {
+      return
+    }
+
     console.error(error.stack)
 
     res.status(500).send('Something broke!')

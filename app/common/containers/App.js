@@ -5,9 +5,7 @@ import PhotoContainer from './PhotoContainer'
 
 const App = (props) => (
   <div>
-    <SidebarContainer />
-    <PhotoContainer />
-    <CounterApp />
+    {props.children}
   </div>
 );
 
