@@ -1,0 +1,88 @@
+@import url(https://fonts.googleapis.com/css?family=Montserrat);
+@import url(https://fonts.googleapis.com/css?family=Libre+Baskerville:400italic);
+@import url(https://fonts.googleapis.com/css?family=Old+Standard+TT);
+/* use n*$base-unit for all font-sizing, (vertical) spacing */
+@import url(https://fonts.googleapis.com/css?family=Raleway);
+.home-menu {
+  padding: 0.5em;
+  text-align: center;
+  background: #000; }
+
+.home-menu .pure-menu-item {
+  font-size: 0.75em;
+  letter-spacing: 0.25em;
+  font-family: "Raleway", sans-serif; }
+
+.home-menu a {
+  color: #fEfefd; }
+
+.home-menu li a:hover {
+  background: #000;
+  color: #ddd; }
+
+/* structural stuff */
+body, html {
+  margin: 0;
+  height: 100%;
+  width: 100%;
+  color: #333;
+  font-family: "Old Standard TT", sans-serif;
+  background-color: #fEfefd;
+  font-size: 16px; }
+
+/* Adjustments to tag defaults */
+::selection {
+  background-color: #FFDE00; }
+
+p {
+  line-height: 1.5; }
+
+.content-wrapper {
+  width: 100%;
+  height: 100%;
+  padding-top: 2.5em; }
+
+.container {
+  padding-left: 10vw;
+  padding-right: 10vw; }
+
+/* BLOG */
+.blog-container {
+  position: relative;
+  max-width: 60vw; }
+  .blog-container .blog-post-container {
+    overflow: hidden;
+    box-shadow: 0px 0px 2px 1px rgba(0, 0, 0, 0.1);
+    padding: 1em;
+    margin-top: 1.5em;
+    margin-right: 1.5em; }
+    .blog-container .blog-post-container .read-more {
+      text-align: left;
+      font-size: 0.90em;
+      color: #8BB7FF; }
+      .blog-container .blog-post-container .read-more a {
+        text-decoration: none;
+        color: inherit;
+        transition: .5s; }
+      .blog-container .blog-post-container .read-more a:hover {
+        color: #2F7EFF; }
+    .blog-container .blog-post-container .blog-description {
+      color: #ddd; }
+    .blog-container .blog-post-container .blog-image {
+      max-width: 100%; }
+
+/* SIDEBAR */
+.sidebar-container {
+  position: inherit; }
+  .sidebar-container .sidebar-item {
+    max-width: 100%; }
+  .sidebar-container .sidebar-item img {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 1em;
+    padding: 1em;
+    height: 3em;
+    width: auto; }
+  .sidebar-container .twitter-timeline {
+    background-color: #fEfefd; }

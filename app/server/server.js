@@ -122,6 +122,8 @@ function renderFullPage(html, initialState) {
         <link href='https://fonts.googleapis.com/css?family=Lato' rel='stylesheet' type='text/css'>
         <link href='http://fonts.googleapis.com/css?family=Raleway' rel='stylesheet' type='text/css'>
         <link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.6.0/pure-min.css">
+
+        <link rel="stylesheet" href="/css/blog.css">
       </head>
       <body>
         <div id="app">${html}</div>
