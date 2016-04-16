@@ -1,10 +1,9 @@
 import React from 'react'
-import CounterApp from './CounterApp'
-import SidebarContainer from './SidebarContainer'
-import PhotoContainer from './PhotoContainer'
+import Navbar from '../components/Navbar'
 
 const App = (props) => (
   <div>
+    <Navbar />
     {props.children}
   </div>
 );
