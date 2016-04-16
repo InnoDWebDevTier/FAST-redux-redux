@@ -26,6 +26,10 @@ import routes from '../common/routes'
 const app = new Express()
 const port = 3000
 
+// Middleware for static files
+// TODO: put this somewhere else
+app.use(Express.static('public'))
+
 // Use this middleware to set up hot module reloading via webpack.
 const compiler = webpack(webpackConfig)
 app.use(webpackDevMiddleware(compiler, { noInfo: true, publicPath: webpackConfig.output.publicPath }))
